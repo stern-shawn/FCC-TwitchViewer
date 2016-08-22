@@ -1,14 +1,12 @@
-.streamer {
-  height: 100px;
-  padding: 5px;
-  margin: 5px 0px 5px 0px;
-  height: 100px;
-  line-height: 50px;
-  border-radius: 5px;
+.btn {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-.btn {
+.streamer {
+  height: 100px;
+  margin: 5px 0px 0px 0px;
+  line-height: 50px;
+  border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
@@ -19,37 +17,21 @@
   padding-left: 5px;
 }
 
-#logo {
-  height: 100px;
-  line-height: 100px;
-}
-
 .casterLogo {
-  max-height: 75px;
-  max-width: 75px;
-  margin-top: -12px;
+  max-height: 100px;
+  max-width: 100px;
+  border-radius: 5px;
 }
 
-.Offline {
+.offline {
   background-color: grey;
   color: black;
 }
 
-.Online {
+.online {
   background-color: #11527A;
   color: #46b8da;
 }
-
-/* Media query, xs starts at 768px */
-@media (min-width: 768px) {
-  .streamer {
-    /*line-height: 100px;*/
-
-    line-height: 100px;
-  }
-}
-
-
 
 /* Generic Footer CSS for my "brand" */
 #contact, #copyright {

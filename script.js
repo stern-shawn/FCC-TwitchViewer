@@ -9,7 +9,8 @@ function makeTwitchURL(type, user) {
 
 // Grab stream information for each channel and format/display on the screen
 function getChannels() {
-  channels.forEach(function(channel) {
+  // Lets change .forEach to .map for stylistic/performance reasons
+  channels.map(function(channel) {
     $.getJSON(makeTwitchURL('streams', channel), function(data) {
       // console.log(data);
       // Track if the stream is up/closed for sorting purposes, and if so what's currently being streamed
@@ -17,15 +18,15 @@ function getChannels() {
 
       if (data.stream === null) {
         console.log("User " + channel + " is not currently streaming...");
-        status = "Offline";
-        currGame = "Offline";
+        status = "offline";
+        currGame = "offline";
       } else if (data.stream === undefined) {
         console.log("User " + channel + " does not exist or is closed...");
-        status = "Offline";
+        status = "offline";
         currGame = "Account Not Found";
       } else {
         console.log("User " + channel + " is streaming!");
-        status = "Online";
+        status = "online";
         currGame = data.stream.game;
       }
 
@@ -36,7 +37,8 @@ function getChannels() {
       $.getJSON(makeTwitchURL('channels', channel), function(streamerData) {
         // console.log(streamerData);
         // Set channel information if available, otherwise use a placeholder or something similar
-        var logo = streamerData.hasOwnProperty('logo') ? streamerData.logo : 'https://dummyimage.com/80/fff/222.jpg/&text=X';
+        // Dummy image syntax: https://dummyimage.com/[Image height/width]/[Background color in hex]]/[Text color in hex].jpg/&text=[text to render]
+        var logo = streamerData.hasOwnProperty('logo') ? streamerData.logo : 'https://dummyimage.com/100/fff/222.jpg/&text=X';
         var name = streamerData.hasOwnProperty('display_name') ? streamerData.display_name : channel;
         var url = streamerData.hasOwnProperty('url') ? streamerData.url : 'https://twitch.tv/';
 
@@ -45,21 +47,23 @@ function getChannels() {
 
         var html = "<a href='" + url +
                     "' target='_blank'><div class='row streamer " + status + "'>" +
-                    "<div class='col-xs-2 col-sm-1 text-center' id='logo'><img src='" + logo + "' class='img-responsive img-thumbnail casterLogo'></div>" +
+                    "<div class='col-xs-2 col-sm-1 text-center'><img src='" + logo + "' class='img-responsive casterLogo'></div>" +
                     "<div class='col-xs-10 col-sm-4 text-center'>" + name + "</div>" +
                     "<div class='col-xs-10 col-sm-7 text-center'>" + currGame + "</div>" +
                     "</div></a>";
 
-        // Offline streamers should go to the bottom of the list (append) and active should be at the top (prepend)
-        status === "Offline" ? $('#fillMe').append(html) : $('#fillMe').prepend(html);
+        // offline streamers should go to the bottom of the list (append) and active should be at the top (prepend)
+        status === "offline" ? $('#fillMe').append(html) : $('#fillMe').prepend(html);
       });
     });
   });
 }
 
 $(document).ready(function(){
+  // On load, populate the page
   getChannels();
 
+  // Monitor filter buttons for clicks and modify visibility accordingly
   $('.filter').click(function() {
     // console.log("Click");
     // console.log("Set filter to " + $(this).attr('id'));
@@ -69,13 +73,13 @@ $(document).ready(function(){
 
     // Apply/Remove the hidden class to toggle visibility of streamers
     if (setFilterTo === "all") {
-      $(".Online, .Offline").removeClass("hidden");
+      $(".online, .offline").removeClass("hidden");
     } else if (setFilterTo === "online") {
-      $(".Online").removeClass("hidden");
-      $(".Offline").addClass("hidden");
+      $(".online").removeClass("hidden");
+      $(".offline").addClass("hidden");
     } else if (setFilterTo === "offline") {
-      $(".Offline").removeClass("hidden");
-      $(".Online").addClass("hidden");
+      $(".offline").removeClass("hidden");
+      $(".online").addClass("hidden");
     }
   });
 });
