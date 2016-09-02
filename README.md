@@ -1,4 +1,4 @@
-# Javascript Calculator App - FreeCodeCamp Project
+# TwitchTV Viewer App - FreeCodeCamp Project
 ---
 ## 1. What This Project Does
 This is an app which displays the status of a few pre-determined, popular TwitchTV viewers to the user and allows them to access a desired stream through a mouse click. While nothing too fancy, this was a great opportunity to see how I could make nested AJAX requests and then generate a list of casters to the DOM using the resulting JSON data. This was also a chance to play with implementing filtering in a list, as you have the option of showing all streamers, only active streamers, or only offline steamers!
