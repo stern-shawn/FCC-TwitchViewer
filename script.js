@@ -4,7 +4,8 @@ var channels = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck"
 // URLs to get channel status vs channel info like the user icon, etc are different, so instead of having two
 // locations where we manually create the URL lets factor it into a function...
 function makeTwitchURL(type, user) {
-  return 'https://api.twitch.tv/kraken/' + type + '/' + user + '?callback=?';
+  // API now requires a user account for Client-ID before content can be accessed
+  return 'https://api.twitch.tv/kraken/' + type + '/' + user + '?client_id=ltzn231aztgg1154evnm33ojt7rfob0&callback=?';
 }
 
 // Grab stream information for each channel and format/display on the screen
@@ -37,10 +38,11 @@ function getChannels() {
       $.getJSON(makeTwitchURL('channels', channel), function(streamerData) {
         // console.log(streamerData);
         // Set channel information if available, otherwise use a placeholder or something similar
+        // Looks like instead of ternary, I can use OR logic instead. If the keys don't exist, OR will default to the right-hand value!
         // Dummy image syntax: https://dummyimage.com/[Image height/width]/[Background color in hex]]/[Text color in hex].jpg/&text=[text to render]
-        var logo = streamerData.hasOwnProperty('logo') ? streamerData.logo : 'https://dummyimage.com/100/fff/222.jpg/&text=X';
-        var name = streamerData.hasOwnProperty('display_name') ? streamerData.display_name : channel;
-        var url = streamerData.hasOwnProperty('url') ? streamerData.url : 'https://twitch.tv/';
+        var logo = streamerData.logo || 'https://dummyimage.com/100/fff/222.jpg/&text=X';
+        var name = streamerData.display_name || channel;
+        var url = streamerData.url || 'https://twitch.tv/';
 
         // console.log(logo);
         // console.log(name);
